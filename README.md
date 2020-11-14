@@ -1,1 +1,3 @@
-# weison wei
+# Work
+Focusing on payment development.
+Interested in high concurrency and databases.
