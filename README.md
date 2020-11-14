@@ -1,3 +1,3 @@
 # Work
-Focusing on payment development.
-Interested in high concurrency and databases.
+Focusing on payment development.   
+Interested in high concurrency and databases.   
