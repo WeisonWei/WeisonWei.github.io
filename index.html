@@ -1,266 +1,253 @@
-﻿<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
 <head>
-    <meta charset="utf-8">
-    <title>Concentration is the secret of strength.</title>
-    <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+	<meta name="generator" content="Hugo 0.123.6"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>WeisonWei</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b609c58d5c11bb90b1a54e04005d74ad1ddf22165eb79f5533967e57df9c3b50.css" integrity="sha256-tgnFjVwRu5CxpU4EAF10rR3fIhZet59VM5Z&#43;V9&#43;cO1A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/index.xml">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/">
+<noscript>
     <style>
-body,p {
-	margin:0;
-}
-body {
-	position:absolute;
-	top:0;
-	left:0;
-	bottom:0;
-	right:0;
-	background:rgba(0,0,0,0.8);
-	color:#fff;
-	user-select:none;
-}
-.clear:after {
-	content:'';
-	display:block;
-	clear:both;
-}
-.wrapper {
-	width:600px;
-	margin:0 auto;
-}
-h1 {
-	text-align:center;
-	font-size:60px;
-}
-.break,.session {
-	width:200px;
-	text-align:center;
-	font-size:26px;
-	font-weight:200;
-}
-.break {
-	float:left;
-}
-.session {
-	float:right;
-}
-.break span,.session span {
-	padding:0 10px;
-}
-.break-minus,.break-add,.session-minus,.session-add {
-	cursor:pointer;
-}
-.circle {
-	position:relative;
-	width:300px;
-	height:300px;
-	border-radius:50%;
-	border:3px solid orange;
-	margin:100px auto;
-	text-align:center;
-}
-.name,.time {
-	position:relative;
-	font-size:34px;
-	margin:65px 0;
-	z-index:100;
-}
-.bg {
-	position:absolute;
-	top:10px;
-	left:10px;
-	width:280px;
-	height:280px;
-	border-radius:50%;
-	overflow:hidden;
-}
-.bg-inner {
-	position:absolute;
-	bottom:0;
-	width:100%;
-	height:0;
-	background:orange;
-}
-
-
-
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
 
     </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
 </head>
-<body>
-<div class="wrapper">
-    <h1>Tomato Clock</h1>
-    <p class="time-name clear">
-        <span class="break">Break Length</span>
-        <span class="session">Session Length</span>
-    </p>
-    <p class="plan-time clear">
-        <span class="break">
-                <span class="break-minus">-</span>
-        <span class="break-num"></span>
-        <span class="break-add">+</span>
-        </span>
-        <span class="session">
-                <span class="session-minus">-</span>
-        <span class="session-num"></span>
-        <span class="session-add">+</span>
-        </span>
-    </p>
-    <div class="circle">
-        <p class="name"></p>
-        <p class="time"></p>
-        <div class="bg">
-            <p class="bg-inner"></p>
-        </div>
 
-    </div>
-</div>
-
-<div id="music">
-    <audio id="myAudio" autoplay="autoplay">
-        <source src="mappleZs.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    <audio src="mappleZs.mp3" controls="controls" autoplay hidden="true" style="display:none;"/>
-</div>
-
+<body class="list" id="top">
 <script>
-var breakTime = 5, //休息时长(单位分)
-    sessionTime = 25, //工作时长(单位分)
-    current = sessionTime * 60, //当前计时器的倒计时时间(单位秒)
-    showTime = sessionTime; //圈内显示的时间
-var state = false, //计时器当前是否处于计时中（ true：计时中；false: 未计时）
-    model = 'Session', //计时器当前模式 （Session：工作模式; Break：休息模式）
-    timer; //计时器
-//使显示时、分、秒均以两位数的形式呈现 （如：2秒 -> 02）
-function toDou(num) {
-    return num < 10 ? "0" + num : "" + num;
-}
-//将秒数转换成时:分:秒的形式 （如 00:12:05）
-function conversion(time) {
-    current = parseInt(time);
-    var h = parseInt(current / 3600),
-        m = parseInt(current % 3600 / 60);
-    s = parseInt(current % 3600 % 60);
-    return toDou(h) + ":" + toDou(m) + ":" + toDou(s);
-}
-//点击- +时执行的函数
-//传入两个参数：
-//  str: 修改工作时长时传入字符串session，
-//       修改休息时长时传入字符串break
-//  num: 点击 - 传入-1
-//       点击 + 传入1
-function eventFun(str, num) {
-    //计时器停止时可修改时长
-    if (!state) {
-        //根据用户操作 修改时长
-        if (str == 'break') { //修改的是break时长
-            breakTime += num;
-            //break时长小于1时另其等于1
-            if (breakTime < 1) {
-                breakTime = 1;
-            }
-        } else if (str == 'session') { //修改的是session时长
-            sessionTime += num;
-            //session时长小于1时另其等于1
-            if (sessionTime < 1) {
-                sessionTime = 1;
-            }
-        }
-        //更新showTime current  用于页面渲染显示
-        if (model == 'Break') {
-            showTime = breakTime;
-            current = breakTime * 60;
-        } else if (model == 'Session') {
-            showTime = sessionTime;
-            current = sessionTime * 60;
-        }
-        //渲染数据
-        $('.break-num').text(breakTime);
-        $(".session-num").text(sessionTime);
-        $('.time').text(showTime);
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
     }
-}
-//绑定事件
-function bindEvent() {
-    //点击break 减
-    $('.break-minus').click(function() {
-        eventFun('break', -1);
-    });
-    //点击break 加
-    $('.break-add').click(function() {
-        eventFun('break', 1);
-    });
-    //点击session 减
-    $('.session-minus').click(function() {
-        eventFun('session', -1);
-    });
-    //点击session 加
-    $('.session-add').click(function() {
-        eventFun('session', 1);
-    });
-    //点击圆圈
-    //state为false时表示当前计时器停止中，设置计时器；
-    //state为true时表示当前计时器在计时中，清空计时器
-    $('.circle').click(function() {
-        if (!state) {
-            timer = setInterval(function() {
-                myTimer();
-            }, 1000);
-        } else {
-            clearInterval(timer);
-        }
-        state = !state;
-    });
-}
-
-
-//计时器每个1s执行的函数
-// 1、更新显示时间（showTime)，改变current当前时长（单位s)，并通过conversion函数转成时分秒样式，赋值给showTime用于页面渲染数据
-// 2、break和session计时的切换
-// 3、背景高度的变化
-function myTimer() {
-    //当前时间-1
-    current--;
-    if (current <= 0) {
-        if (model == 'Session') {
-            model = 'Break';
-            current = breakTime * 60;
-            $('.bg-inner').css('background', 'green');
-        } else {
-            model = 'Session';
-            current = sessionTime * 60;
-            $('.bg-inner').css('background', 'orange');
-        }
-        $('.name').text(model);
-    }
-    //转换时长为时分秒格式
-    showTime = conversion(current);
-    //渲染圆圈内的时间
-    $('.time').text(showTime);
-
-    //改变背景高度
-    // current/(60*session) 剩余时长占总时长的占比
-    // 1 - current/(60*session)  已经走过的时长占比
-    if (model == 'Session') {
-        $('.bg-inner').height((1 - current / (60 * sessionTime)) * 100 + '%');
-    } else {
-        $('.bg-inner').height((1 - current / (60 * breakTime)) * 100 + '%');
-    }
-}
-// 初始化页面，渲染默认break session时长，以及圆圈内时长和模型
-function init() {
-    $('.break-num').text(breakTime);
-    $(".session-num").text(sessionTime);
-    $('.name').text(model);
-    $('.time').text(showTime);
-    bindEvent();
-}
-init();
-
-
-
 
 </script>
 
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="WeisonWei (Alt + H)">WeisonWei</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="first-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">First3
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2024-03-03 22:50:37 +0800 CST'>March 3, 2024</span></footer>
+  <a class="entry-link" aria-label="post link to First3" href="http://localhost:1313/post/first3/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">First2
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2024-03-03 22:50:33 +0800 CST'>March 3, 2024</span></footer>
+  <a class="entry-link" aria-label="post link to First2" href="http://localhost:1313/post/first2/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">First1
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2024-03-03 22:50:30 +0800 CST'>March 3, 2024</span></footer>
+  <a class="entry-link" aria-label="post link to First1" href="http://localhost:1313/post/first1/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">First
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>hugo new site blog cd blog hugo new about.md hugo new post/first.md git clone https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod hugo server --theme=PaperMod --buildDrafts https://www.gohugo.org/ https://github.com/adityatelange/hugo-PaperMod </p>
+  </div>
+  <footer class="entry-footer"><span title='2024-03-03 22:18:32 +0800 CST'>March 3, 2024</span></footer>
+  <a class="entry-link" aria-label="post link to First" href="http://localhost:1313/post/first/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="http://localhost:1313/">WeisonWei</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
 </body>
+
 </html>
