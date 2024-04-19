@@ -1,3 +1,3 @@
-# INFO
-[预览](http://weisonwei.fun)
+# 首页
+[点击](http://weison.fun)
 
